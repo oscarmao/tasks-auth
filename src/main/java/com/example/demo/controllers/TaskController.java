@@ -2,7 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Task;
 import com.example.demo.entities.User;
-import com.example.demo.services.TaskService;
+import com.example.demo.repositories.TaskService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,10 +34,13 @@ public class TaskController {
 
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal OidcUser principal) {
-        // getClains es una funcion que nos va a entregar informacion acerca del usuario logueado
+        //System.out.println(principal.getClaims());
+        // getClains es una metodo que nos va a entregar informacion acerca del usuario logueado
         if(principal != null){
            User user = this.userService.getOrCreateUser(principal.getClaims());
-           model.addAttribute("user", user);
+           model.addAttribute("user", user);//le pasamos a nuestro frontend la informacion de ese usuario
+                                                         // asi que pasamos ese usuario user de la linea 40 al modelo
+            // de esta manera ya en el frontend podemos acceder a ese usuario
         }
         return "index";
     }
